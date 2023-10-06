@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hisse Senedi Portföy Takip Uygulaması</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+</head>
+<body>
+<div th:replace="navbar.html"></div>
+
+<div class="container">
+    <h1>Hisse Senedi Portföy Takip Uygulaması</h1>
+    <hr>
+    <h2>İşlem Ekle</h2>
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <form action="/add-transaction" th:action="@{/save}" th:object="${transactionDto}" method="POST" class="form">
+        <div class="form-group row">
+            <label for="stockName" class="col-3 col-form-label">Hisse Adı</label>
+            <div class="col-3">
+                <input type="text" th:field="*{stockName}" id="stockName" class="form-control">
+            </div>
+        </div>
+        <script th:inline="javascript">
+            $(function() {
+                var stockNames = /*[[${stockNames}]]*/ [];
+
+                $("#stockName").autocomplete({
+                    source: function(request, response) {
+                        var term = request.term;
+                        var filtered = $.grep(stockNames, function(item) {
+                            return item.toLowerCase().indexOf(term.toLowerCase()) >= 0;
+                        });
+                        response(filtered);
+                    },
+                    minLength: 3,
+                    select: function(event, ui) {
+                    }
+                });
+
+                $("#stockName").on("change", function() {
+                    var input = $(this);
+                    if ($.inArray(input.val(), stockNames) === -1) {
+                        input.val("");
+                    }
+                });
+            });
+        </script>
+
+
+        <div class="form-group row">
+            <label for="unitStockCost" class="col-3 col-form-label">Birim Hisse Fiyatı</label>
+            <div class="col-3">
+                <input type="number" th:field="*{unitStockCostWhole}" id="unitStockCost" class="form-control" value="0">
+            </div>
+            <div class="col-1 text-center">
+                <span>,</span>
+            </div>
+            <div class="col-3">
+                <input type="number" th:field="*{unitStockCostFraction}" class="form-control" value="0">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="usdExchangeRate" class="col-3 col-form-label">Dolar Kuru</label>
+            <div class="col-3">
+                <input type="number" th:field="*{usdExchangeRateWhole}" id="usdExchangeRate" class="form-control" value="0">
+            </div>
+            <div class="col-1 text-center">
+                <span>,</span>
+            </div>
+            <div class="col-3">
+                <input type="number" th:field="*{usdExchangeRateFraction}" class="form-control" value="0">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="amount" class="col-3 col-form-label">Hisse Adedi</label>
+            <div class="col-3">
+                <input type="number" th:field="*{amount}" id="amount"  class="form-control" value="0">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="transactionType" class="col-3 col-form-label">Transaction Type</label>
+            <div class="col-3">
+                <select th:field="*{transactionType}" id="transactionType" class="form-control">
+                    <option value="BUY">Buy</option>
+                    <option value="SELL">Sell</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3"></div>
+            <div class="col-6">
+                <button type="submit" class="btn btn-info">Save</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>
