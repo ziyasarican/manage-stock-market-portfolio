@@ -1,13 +1,12 @@
 package com.saricanziya.stockmarketportfolio.service;
 
-import com.saricanziya.stockmarketportfolio.entity.PortfolioEntity;
 import com.saricanziya.stockmarketportfolio.entity.TransactionEntity;
 import com.saricanziya.stockmarketportfolio.repository.TransactionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+
 
 @Service
 public class TransactionServiceImpl implements TransactionService{

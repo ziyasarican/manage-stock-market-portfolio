@@ -2,7 +2,6 @@ package com.saricanziya.stockmarketportfolio.service;
 
 import com.saricanziya.stockmarketportfolio.entity.PortfolioEntity;
 import com.saricanziya.stockmarketportfolio.entity.TransactionEntity;
-import com.saricanziya.stockmarketportfolio.entity.TransactionType;
 import com.saricanziya.stockmarketportfolio.mapper.PortfolioMapper;
 import com.saricanziya.stockmarketportfolio.repository.PortfolioRepository;
 import lombok.SneakyThrows;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
 
 @Service
 public class PortfolioServiceImpl implements PortfolioService{
@@ -60,6 +59,7 @@ public class PortfolioServiceImpl implements PortfolioService{
         // Silinmek istenen hisse miktarı sahip olunan miktara eşit ise databese'den sil
         if(transactionEntity.getAmount() == byStockName.getAmount()){
             portfolioRepository.delete(byStockName);
+            return;
         }
 
         // Silinmek istenen hisse var ise ve silinmeye uygun ise maliyet-miktar işlemlerini yap

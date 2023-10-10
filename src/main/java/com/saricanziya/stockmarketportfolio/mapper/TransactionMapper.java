@@ -1,9 +1,7 @@
 package com.saricanziya.stockmarketportfolio.mapper;
 
 import com.saricanziya.stockmarketportfolio.dto.TransactionDto;
-import com.saricanziya.stockmarketportfolio.entity.PortfolioEntity;
 import com.saricanziya.stockmarketportfolio.entity.TransactionEntity;
-import com.saricanziya.stockmarketportfolio.entity.TransactionType;
 import org.mapstruct.Mapper;
 
 @Mapper
